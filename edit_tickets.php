@@ -5,9 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="./css/edit_style1.css">
     <title>Редагування квитків</title>
+    
+    <style>
+        .button-container input {
+            background-image: linear-gradient(to right, #f6d365 0%, #fda085 51%, #f6d365 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+            color: red;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .button-container input[type="submit"] {
+            color: white; /* Белый цвет для кнопки "Редагувати" */
+            background-color: #007bff; /* Измененный цвет для кнопки "Редагувати" */
+        }
+        .button-container input:hover {
+            transform: scale(1.05);
+            animation: gradientAnimation 5s ease infinite;
+            transition: background-position 0.5s, transform 0.5s;
+        }
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h2>Редагування квитків</h2>
+    <h2 style="color: #ff5733;">Редагування квитків</h2>
 
     <?php
         $mysqli = new mysqli("localhost", "root", "", "Cinema_kurs1");
@@ -30,10 +63,12 @@
             }
             echo "</select>";
             echo "<br>";
+            echo "<div class='button-container'>";
             echo "<input type='submit' name='sel' value='Обрати квиток для редагування'>";
+            echo "</div>";
             echo "</form>";
         } else {
-            echo "<p>квитків не знайдено</p>";
+            echo "<p>Квитків не знайдено</p>";
         }
 
         if (isset($_POST['sel'])) {
@@ -46,11 +81,13 @@
 
             echo '<form method="post">';
             echo '<input type="hidden" name="id1" value="' . $res['id_seats'] . '">';
-            echo '<br><label>Продано (1 - да, 0 - нет)</label><br>';
+            echo '<br><label>Продано (1 - Так, 0 - Ні)</label><br>';
             echo '<input type="text" name="is_sold" value="' . $res['is_sold'] . '"><br><br>';
-            echo '<label>Цена</label><br>';
+            echo '<label>Ціна</label><br>';
             echo '<input type="text" name="cost" value="' . $res['cost'] . '"><br><br>';
+            echo '<div class="button-container">';
             echo '<input type="submit" name="update" value="Редагувати">';
+            echo '</div>';
             echo '</form>';
         }
 
@@ -74,7 +111,7 @@
         
     </div>
 
-    <h2>Таблиця квитків</h2>
+    <h2 style="color: #ff5733;">Таблиця квитків</h2>
     <table>
         <tr>
             <th class="start">ID місця</th>
